@@ -23,8 +23,7 @@ class ViewController: UITableViewController {
         // This loop appends the files in the filesystem that have the prefix "nssl" to the array declared above called "pictures."
         for item in items {
             if item.hasPrefix("nssl") {
-                // this is a picture to load!
-                pictures.append(item)
+                pictures.append(item) // Append to the array.
             }
         }
     }
