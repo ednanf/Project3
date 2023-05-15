@@ -16,6 +16,9 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Storm Viewer"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
@@ -24,6 +27,8 @@ class ViewController: UITableViewController {
         for item in items {
             if item.hasPrefix("nssl") {
                 pictures.append(item) // Append to the array.
+                // Challenge 2: sort pictures
+                pictures.sort()
             }
         }
     }
@@ -39,6 +44,23 @@ class ViewController: UITableViewController {
         cell.textLabel?.text = pictures[indexPath.row] // Access the properties from the constant cell created above - the text.
         return cell // Returns the declared cell to the function.
     }
+    
+    // Creates DetailViewController
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // This will make DeatailViewController to be named "vc" -- The screen is called "Detail" in the IB
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            vc.selectedImage = pictures[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+            
+            // Challenge 3: send array position + total number of pictures to DetailViewController
+            vc.selectedPictureNumber = indexPath.row + 1 // +1 is to compensate array index starting at 0
+            vc.totalPictures = pictures.count
+        }
+    }
+    
+    
+    
+    
     
 }
 
